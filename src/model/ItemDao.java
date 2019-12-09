@@ -23,18 +23,18 @@ public final class ItemDao implements Dao<Item>{
 	public Item resultSetToModel(ResultSet rs) throws SQLException {
 		return new Item(
 				rs.getInt("id"), 
-				rs.getString("observacao"));
+				rs.getString("descricao"));
 	}
 	
 	@Override
 	public Item insert(final Item model) throws ClassNotFoundException, SQLException {
 		
-		String sql = "INSERT INTO " + TABELA + " (observacao) VALUES(?)";
+		String sql = "INSERT INTO " + TABELA + " (descricao) VALUES(?)";
 		
 		Connection con = Banco.iniciarDb();
 		PreparedStatement st = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 		
-		st.setString(1, model.getObservacao());
+		st.setString(1, model.getDescricao());
 
 		st.execute();
 		
@@ -42,6 +42,24 @@ public final class ItemDao implements Dao<Item>{
         if(resultSet.next()) {
             model.setId(resultSet.getInt("LAST_INSERT_ID()"));
         }
+        
+        st.close();
+        con.close();
+		
+		return model;
+	}
+	
+	@Override
+	public Item update(Item model) throws ClassNotFoundException, SQLException {
+		String sql = "UPDATE " + TABELA + " SET descricao = ? WHERE id = ?";
+		
+		Connection con = Banco.iniciarDb();
+		PreparedStatement st = con.prepareStatement(sql);
+		
+		st.setString(1, model.getDescricao());
+		st.setInt(2, model.getId());
+		
+		st.execute();
         
         st.close();
         con.close();
@@ -75,10 +93,10 @@ public final class ItemDao implements Dao<Item>{
 		String where = "";
 		
 		if(query != null && query.trim().length() > 0) {
-			where = " where observacao like '%" + query + "%'";
+			where = " where descricao like '%" + query + "%'";
 		}
 		
-		String sql = "select * from " + TABELA + where + " order by observacao" ;	
+		String sql = "select * from " + TABELA + where + " order by descricao" ;	
 
 		Connection con = Banco.iniciarDb();
 		Statement st = con.createStatement();
@@ -108,11 +126,4 @@ public final class ItemDao implements Dao<Item>{
         st.close();
         con.close();
 	}
-
-	@Override
-	public Item update(Item model) throws ClassNotFoundException, SQLException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 }

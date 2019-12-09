@@ -2,33 +2,23 @@ package model;
 
 public class Item extends Model{
 	
-	private Integer id;
-	private String observacao;
+	private String descricao;
 	
 	public Item() {
 		super(null);
 	}
 	
-	public Item(Integer id, String observacao) {
+	public Item(Integer id, String descricao) {
 		super(id);
-		this.id = id;
-		this.observacao = observacao;
+		this.descricao = descricao;
 		
 	}
 
-	public Integer getId() {
-		return id;
+	public String getDescricao() {
+		return descricao;
 	}
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
-
-	public String getObservacao() {
-		return observacao;
-	}
-
-	public void setObservacao(String observacao) {
-		this.observacao = observacao;
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
 	}
 }
