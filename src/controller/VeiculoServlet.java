@@ -26,6 +26,7 @@ public class VeiculoServlet extends HttpServlet {
 				request.getSession().setAttribute("titulo", "Cadastrar Novo Veículo");
 				request.getSession().setAttribute("veiculo", new Veiculo());
 				request.getSession().setAttribute("tipos", VeiculoTipo.values());
+				request.getSession().setAttribute("urlSave", "/manutencao/veiculo/novo");
 				
 				request.getRequestDispatcher("/veiculo.jsp").forward(request, response);
 			}else {
@@ -36,12 +37,20 @@ public class VeiculoServlet extends HttpServlet {
 				if(request.getRequestURI().endsWith("/delete")){
 					if(idInformado) { //DELETE
 						VeiculoDao.getInstance().delete(Integer.parseInt(id));
+						response.sendRedirect("/manutencao/veiculo");
 					}else {
 						throw new ManutencaoException("Não foi encontrado o veículo informado.");
 					}
 				}else {
 					if(idInformado) { //GET
 						Veiculo veiculo = VeiculoDao.getInstance().get(Integer.parseInt(id));
+						
+						request.getSession().setAttribute("titulo", "Editar Veículo");
+						request.getSession().setAttribute("veiculo", veiculo);
+						request.getSession().setAttribute("tipos", VeiculoTipo.values());
+						request.getSession().setAttribute("urlSave", "/manutencao/veiculo");
+			
+						request.getRequestDispatcher("/veiculo.jsp").forward(request, response);
 					}else { //LIST
 						String query = request.getParameter("q");
 						

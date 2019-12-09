@@ -22,8 +22,8 @@
 	<div>
 		<h2>${sessionScope.titulo}</h2>
 	</div>
-
-	<form action="/manutencao/veiculo/novo" method="post">
+	<form action="${sessionScope.urlSave}" method="post">
+		<input type="number" style="display: hidden" value="${sessionScope.veiculo.id}" name="id" />
 		<table align="center">
 			<tr>
 				<td align="right">Descrição:</td>
@@ -53,17 +53,29 @@
 			<tr>
 				<td align="right">Tipo de Veículo:</td>
 				<td align="left">
-					<select name="tipo">
+					<select name="tipo" value>
 						<c:forEach var="vTipo" items="${sessionScope.tipos}">
-			   				<option value="${vTipo}">${vTipo.descricao}</option>
+							<c:choose>
+						 		<c:when test="${sessionScope.veiculo.tipo == vTipo}">
+									<option value="${vTipo}" selected="selected">${vTipo.descricao}</option>
+							 	</c:when>
+								<c:otherwise>
+								   <option value="${vTipo}">${vTipo.descricao}</option>
+								</c:otherwise>
+							</c:choose>
 						</c:forEach>
 					</select>
 				</td>
 			</tr>
 			<tr>
-				<td colspan="2" align="left">
+				<td align="left">
 					<input class="button buttongreen" type="submit" value="Salvar"/>
 				</td>
+				<c:if test="${sessionScope.veiculo.id != null}">
+					<td align="left">
+						<a href="/manutencao/veiculo/delete?id=${sessionScope.veiculo.id}" class='button buttonred'>Excluir</a>	
+					</td>
+				</c:if> 
 			</tr>
 		</table>
 	</form>	
