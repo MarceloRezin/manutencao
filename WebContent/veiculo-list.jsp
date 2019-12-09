@@ -7,7 +7,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Manutenção</title>
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="/manutencao/styles.css">
 </head>
 <body style="text-align: center">
 

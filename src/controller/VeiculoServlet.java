@@ -15,16 +15,19 @@ import model.Veiculo;
 import model.VeiculoDao;
 import model.VeiculoTipo;
 
-@WebServlet("/veiculo")
+@WebServlet("/veiculo/*")
 public class VeiculoServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-     
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		try {
 			if(request.getRequestURI().endsWith("/novo")) { //NEW
+				request.getSession().setAttribute("titulo", "Cadastrar Novo Veículo");
+				request.getSession().setAttribute("veiculo", new Veiculo());
+				request.getSession().setAttribute("tipos", VeiculoTipo.values());
 				
+				request.getRequestDispatcher("/veiculo.jsp").forward(request, response);
 			}else {
 				
 				String id = request.getParameter("id");
@@ -64,10 +67,9 @@ public class VeiculoServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
-			
 			Veiculo veiculoSave;
 			
-			if(request.getRequestURI().endsWith("/new")) { //NEW
+			if(request.getRequestURI().endsWith("/novo")) { //NEW
 				veiculoSave = new Veiculo(null, Integer.parseInt(request.getParameter("ano")), request.getParameter("placa"), VeiculoTipo.valueOf(request.getParameter("tipo")), request.getParameter("descricao"));
 			}else {
 				String id = request.getParameter("id");
@@ -85,12 +87,21 @@ public class VeiculoServlet extends HttpServlet {
 			}
 			
 			VeiculoDao.getInstance().save(veiculoSave);
+			response.sendRedirect("/manutencao/veiculo");
 				
 		}catch(ClassNotFoundException | SQLException e1) {
+			
+			e1.printStackTrace();
+			
 			//TODO: Erro banco
 		}catch(ManutencaoException e2) {
+			e2.printStackTrace();
+			
 			//TODO: Erro normal
 		}catch(Exception e3) {
+			
+			e3.printStackTrace();
+			
 			//TODO: Erro não esperado
 		}
 	}

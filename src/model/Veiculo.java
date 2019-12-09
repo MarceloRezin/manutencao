@@ -7,6 +7,10 @@ public class Veiculo extends Model{
 	private VeiculoTipo tipo;
 	private String descricao;
 	
+	public Veiculo() {
+		super(null);
+	}
+	
 	public Veiculo(Integer id, int ano, String placa, VeiculoTipo tipo, String descricao) {
 		super(id);
 		this.ano = ano;
