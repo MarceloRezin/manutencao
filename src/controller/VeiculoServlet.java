@@ -30,8 +30,6 @@ public class VeiculoServlet extends HttpServlet {
 				
 				request.getRequestDispatcher("/veiculo.jsp").forward(request, response);
 			}else {
-				
-				//dff
 				String id = request.getParameter("id");
 				boolean idInformado = id != null && id.length() > 0;
 				
