@@ -37,6 +37,7 @@ public class VeiculoServlet extends HttpServlet {
 				if(request.getRequestURI().endsWith("/delete")){
 					if(idInformado) { //DELETE
 						VeiculoDao.getInstance().delete(Integer.parseInt(id));
+						request.getSession().setAttribute("mensagem", "Excluído com sucesso!");
 						response.sendRedirect("/manutencao/veiculo");
 					}else {
 						throw new ManutencaoException("Não foi encontrado o veículo informado.");
@@ -60,6 +61,7 @@ public class VeiculoServlet extends HttpServlet {
 						request.getSession().setAttribute("veiculos", veiculos);
 						
 						request.getRequestDispatcher("/veiculo-list.jsp").forward(request, response);
+						request.getSession().setAttribute("mensagem", null);
 					}
 				}
 			}
@@ -72,7 +74,6 @@ public class VeiculoServlet extends HttpServlet {
 			//TODO: Erro não esperado
 		}
 	}
-
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
@@ -96,6 +97,7 @@ public class VeiculoServlet extends HttpServlet {
 			}
 			
 			VeiculoDao.getInstance().save(veiculoSave);
+			request.getSession().setAttribute("mensagem", "Salvo com sucesso!");
 			response.sendRedirect("/manutencao/veiculo");
 				
 		}catch(ClassNotFoundException | SQLException e1) {

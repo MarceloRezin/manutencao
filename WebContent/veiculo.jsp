@@ -10,7 +10,6 @@
 <link rel="stylesheet" href="/manutencao/styles.css">
 </head>
 <body style="text-align: center">
-
 	<div class="topnav"> 
 		<a style="float: left; margin-right: 20px; font-weight: bold; font-size: 19px; border-right: 1px solid white">Gerenciamento de Manutenções</a>
 		<a href="/manutencao/">Home</a>
@@ -18,12 +17,11 @@
 		<a href="/manutencao/manutencao">Itens</a>
 		<a href="/manutencao/manutencao">Manutenções</a>
 	</div>
-
 	<div>
 		<h2>${sessionScope.titulo}</h2>
 	</div>
 	<form action="${sessionScope.urlSave}" method="post">
-		<input type="number" style="display: hidden" value="${sessionScope.veiculo.id}" name="id" />
+		<input type="number" style="display: none" value="${sessionScope.veiculo.id}" name="id" />
 		<table align="center">
 			<tr>
 				<td align="right">Descrição:</td>

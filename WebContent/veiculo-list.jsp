@@ -10,7 +10,7 @@
 <link rel="stylesheet" href="/manutencao/styles.css">
 </head>
 <body style="text-align: center">
-
+	<div id="snackbar">${sessionScope.mensagem}</div>
 	<div class="topnav"> 
 		<a style="float: left; margin-right: 20px; font-weight: bold; font-size: 19px; border-right: 1px solid white">Gerenciamento de Manutenções</a>
 		<a href="/manutencao/">Home</a>
@@ -56,5 +56,19 @@
 		   <h3>Não foram encontrados veículos.</h3>
 		 </c:otherwise>
 	</c:choose>
+	
+	<script>
+		function showToast() {
+		  var x = document.getElementById("snackbar");
+		  x.className = "show";
+		  setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+		}
+	</script>
+	
+	<c:if test="${sessionScope.mensagem != null}">
+		<script>
+			showToast();
+		</script>
+	</c:if> 
 </body>
 </html>
