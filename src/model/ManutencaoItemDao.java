@@ -14,7 +14,7 @@ import model.Item;
 
 public final class ManutencaoItemDao implements Dao<ManutencaoItem>{
 	
-	private static final String TABELA = "itens";
+	private static final String TABELA = "manutencoes_itens";
 	
 	public static ManutencaoItemDao getInstance() {
 		return new ManutencaoItemDao();

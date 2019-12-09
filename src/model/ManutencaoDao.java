@@ -22,14 +22,19 @@ public final class ManutencaoDao implements Dao<Manutencao> {
 	@Override
 	public Manutencao resultSetToModel(ResultSet rs) throws SQLException {
 		try {
-			return new Manutencao(
+			
+			Manutencao m = new Manutencao(
 					rs.getInt("id"), 
 					Timestamp.valueOf(rs.getString("data_hora")).toLocalDateTime(), 
 					rs.getBigDecimal("quilometragem"), 
 					rs.getString("descricao"), 
 					rs.getBigDecimal("valor"),
 					VeiculoDao.getInstance().get(rs.getInt("veiculo_id")),
-					new ArrayList<Object>());
+					new ArrayList<ManutencaoItem>());
+		
+			m.setItens(ManutencaoItemDao.getInstance().listByManutencao(m.getId()));
+			
+			return m;
 		}catch(ClassNotFoundException e) {
 			e.printStackTrace();
 			return null;

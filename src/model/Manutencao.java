@@ -2,6 +2,7 @@ package model;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class Manutencao extends Model{
@@ -11,13 +12,20 @@ public class Manutencao extends Model{
 	private String descricao;
 	private BigDecimal valor;
 	private Veiculo veiculo;
-	private List<Object> itens; //TODO itens
+	private List<ManutencaoItem> itens;
 	
+	private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+
 	public Manutencao() {
 		super(null);
 	}
 
-	public Manutencao(Integer id, LocalDateTime dataHora, BigDecimal quilometragem, String descricao, BigDecimal valor, Veiculo veiculo, List<Object> itens) {
+	public Manutencao(LocalDateTime dataHora) {
+		super(null);
+		this.dataHora = dataHora;
+	}
+
+	public Manutencao(Integer id, LocalDateTime dataHora, BigDecimal quilometragem, String descricao, BigDecimal valor, Veiculo veiculo, List<ManutencaoItem> itens) {
 		super(id);
 		this.dataHora = dataHora;
 		this.quilometragem = quilometragem;
@@ -29,6 +37,10 @@ public class Manutencao extends Model{
 
 	public LocalDateTime getDataHora() {
 		return dataHora;
+	}
+	
+	public String getDataHoraFormatada() {
+		return dataHora.format(FORMATTER);
 	}
 
 	public void setDataHora(LocalDateTime dataHora) {
@@ -67,11 +79,15 @@ public class Manutencao extends Model{
 		this.veiculo = veiculo;
 	}
 
-	public List<Object> getItens() {
+	public List<ManutencaoItem> getItens() {
 		return itens;
 	}
 
-	public void setItens(List<Object> itens) {
+	public void setItens(List<ManutencaoItem> itens) {
 		this.itens = itens;
+	}
+	
+	public int getQuantidadeItens() {
+		return itens == null ? 0 : itens.size();
 	}
 }
