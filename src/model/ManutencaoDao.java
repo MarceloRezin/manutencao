@@ -139,6 +139,9 @@ public final class ManutencaoDao implements Dao<Manutencao> {
 
 	@Override
 	public void delete(final int id) throws ClassNotFoundException, SQLException {
+		
+		ManutencaoItemDao.getInstance().deleteByManutencao(id); //Apaga antes os itens
+		
 		String sql = "DELETE FROM " + TABELA + " WHERE id = " + id;
 		
 		Connection con = Banco.iniciarDb();

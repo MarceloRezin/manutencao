@@ -42,36 +42,26 @@ public class ManutencaoServlet extends HttpServlet {
 				
 				if(request.getRequestURI().endsWith("/delete")){
 					if(idInformado) { //DELETE
-						ItemDao.getInstance().delete(Integer.parseInt(id));
+						ManutencaoDao.getInstance().delete(Integer.parseInt(id));
 						request.getSession().setAttribute("mensagem", "Excluído com sucesso!");
-						response.sendRedirect("/manutencao/item");
+						response.sendRedirect("/manutencao/manutencao");
 					}else {
-						throw new ManutencaoException("Não foi encontrado o veículo informado.");
+						throw new ManutencaoException("Não foi encontrado a manutencao infomarda.");
 					}
 				}else {
 					if(idInformado) { //GET
-						Item item = ItemDao.getInstance().get(Integer.parseInt(id));
+						Manutencao manutencao = ManutencaoDao.getInstance().get(Integer.parseInt(id));
 						
-						request.getSession().setAttribute("titulo", "Editar Item");
-						request.getSession().setAttribute("item", item);
-						request.getSession().setAttribute("urlSave", "/manutencao/item");
+						request.getSession().setAttribute("titulo", "Editar Manutenção");
+						request.getSession().setAttribute("manutencao", manutencao);
+						request.getSession().setAttribute("veiculos", VeiculoDao.getInstance().list(null));
+						request.getSession().setAttribute("urlSave", "/manutencao/manutencao");
 			
-						request.getRequestDispatcher("/item.jsp").forward(request, response);
-					}else { //LIST
-						
-						
-						System.out.println("OLAAAA");
-						
+						request.getRequestDispatcher("/manutencao.jsp").forward(request, response);
+					}else { //LIST	
 						String query = request.getParameter("q");
 						
 						List<Manutencao> manutencoes = ManutencaoDao.getInstance().list(query);
-						System.out.println(manutencoes.size());
-						manutencoes.forEach(m -> {
-							
-							System.out.println(m.getVeiculo());
-						});
-						
-//						List<Manutencao> manutencoes = Arrays.asList(new Manutencao(1, LocalDateTime.now(), BigDecimal.ONE, "Teste", BigDecimal.ZERO, new Veiculo(1, 2009, "sdds", VeiculoTipo.CARRO, "sdsds"), Collections.emptyList()));
 						request.getSession().setAttribute("titulo", "Listagem de Manutenções");
 						request.getSession().setAttribute("busca", query);
 						request.getSession().setAttribute("manutencoes", manutencoes);

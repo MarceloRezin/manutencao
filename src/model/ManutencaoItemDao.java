@@ -157,4 +157,16 @@ public final class ManutencaoItemDao implements Dao<ManutencaoItem>{
         st.close();
         con.close();
 	}
+
+	public void deleteByManutencao(final int manutencaoId) throws ClassNotFoundException, SQLException {
+		String sql = "DELETE FROM " + TABELA + " WHERE manutencao_id = " + manutencaoId;
+		
+		Connection con = Banco.iniciarDb();
+		Statement st = con.createStatement();
+
+		st.execute(sql);
+        
+        st.close();
+        con.close();
+	}
 }
