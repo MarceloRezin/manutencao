@@ -14,7 +14,7 @@
 		<a style="float: left; margin-right: 20px; font-weight: bold; font-size: 19px; border-right: 1px solid white">Gerenciamento de Manutenções</a>
 		<a href="/manutencao/">Home</a>
 		<a class="active" href="/manutencao/veiculo">Veículos</a>
-		<a href="/manutencao/manutencao">Itens</a>
+		<a href="/manutencao/item">Itens</a>
 		<a href="/manutencao/manutencao">Manutenções</a>
 	</div>
 	<div>
