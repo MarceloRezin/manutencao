@@ -26,25 +26,35 @@
 	<a href='/manutencao/veiculo/novo' class='button buttongreen'>Novo Veículo</a><br /><br />
 	
 	<input type="text" placeholder="Buscar" id="busca" value="${sessionScope.busca}" /><a onclick="this.href='/manutencao/veiculo?q='+document.getElementById('busca').value" href='' class='button buttonlightgreen'>Buscar</a>
-	<table id="listagem" align="center">
-		<tr>
-			<th>Id</th>
-			<th>Descrição</th>
-			<th>Placa</th>
-			<th>Tipo</th>
-			<th>Ano</th>
-			<th></th>
-		</tr>
-		<c:forEach var="v" items="${sessionScope.veiculos}">
-	   		<tr>
-				<td>${v.id}</td>
-				<td>${v.descricao}</td>
-				<td>${v.placa}</td>
-				<td>${v.tipo.descricao}</td>
-				<td>${v.ano}</td>
-				<td><a href="?id=${v.id}">Editar</a></td>
-			</tr>
-		</c:forEach>
-	</table>
+	<c:choose>
+ 		<c:when test="${!empty sessionScope.veiculos}">
+ 		 
+			<table id="listagem" align="center">
+				<tr>
+					<th>Id</th>
+					<th>Descrição</th>
+					<th>Placa</th>
+					<th>Tipo</th>
+					<th>Ano</th>
+					<th></th>
+				</tr>
+				<c:forEach var="v" items="${sessionScope.veiculos}">
+			   		<tr>
+						<td>${v.id}</td>
+						<td>${v.descricao}</td>
+						<td>${v.placa}</td>
+						<td>${v.tipo.descricao}</td>
+						<td>${v.ano}</td>
+						<td><a href="?id=${v.id}">Editar</a></td>
+					</tr>
+				</c:forEach>
+			</table>
+		 
+	 </c:when>
+		 <c:otherwise>
+		   <br /><br />
+		   <h3>Não foram encontrados veículos.</h3>
+		 </c:otherwise>
+	</c:choose>
 </body>
 </html>
