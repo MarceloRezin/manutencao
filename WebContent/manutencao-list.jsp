@@ -42,9 +42,9 @@
 				<c:forEach var="m" items="${sessionScope.manutencoes}">
 			   		<tr>
 						<td>${m.id}</td>
-						<td>${m.quilometragem}</td>
+						<td>${m.quilometragemFormatada}</td>
 						<td>${m.descricao}</td>
-						<td>${m.valor}</td>
+						<td>${m.valorFormatado}</td>
 						<td>${m.veiculo.descricao}</td>
 						<td>${m.quantidadeItens}</td>
 						<td><a href="?id=${m.id}">Editar</a></td>

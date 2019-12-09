@@ -22,10 +22,19 @@
 	</div>
 	<form action="${sessionScope.urlSave}" method="post">
 		<input type="number" style="display: none" value="${sessionScope.manutencao.id}" name="id" />
-		<input type="text" style="display: none" value="${sessionScope.manutencao.dataHora}" name="dataHora" />
+		
 		<table align="center">
+		
+			<c:if test="${sessionScope.manutencao.id != null}">
+				<tr>
+					<td align="right">Data Hora:</td>
+					<td align="left">
+						<input type="text" value="${sessionScope.manutencao.dataHoraFormatada}"  disabled />
+					</td>
+				</tr>
+			</c:if> 
 			<tr>
-				<td align="right">Quilometragem:</td>
+				<td align="right">Quilometragem (km):</td>
 				<td align="left">
 					<input required type="number" step="0.01" name="quilometragem" value="${sessionScope.manutencao.quilometragem}"/>
 				</td>
@@ -37,7 +46,7 @@
 				</td>
 			</tr>
 			<tr>
-				<td align="right">Valor:</td>
+				<td align="right">Valor (R$):</td>
 				<td align="left">
 					<input required type="number" step="0.01" name="valor" value="${sessionScope.manutencao.valor}"/>
 				</td>

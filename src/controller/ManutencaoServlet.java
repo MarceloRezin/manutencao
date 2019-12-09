@@ -92,23 +92,25 @@ public class ManutencaoServlet extends HttpServlet {
 				manutencaoSave = new Manutencao(
 						null,
 						LocalDateTime.now(), 
-						new BigDecimal(request.getParameter("quilometragem")), 
+						new BigDecimal(request.getParameter("quilometragem").replaceAll(",", ".")), 
 						request.getParameter("descricao"), 
-						new BigDecimal(request.getParameter("valor")), 
+						new BigDecimal(request.getParameter("valor").replaceAll(",", ".")), 
 						VeiculoDao.getInstance().get(Integer.parseInt(request.getParameter("veiculo_id"))),
 						Collections.emptyList()
 						);
 			}else {
 				
-				manutencaoSave = null;
 				String id = request.getParameter("id");
-//				
+				
 				if(id == null || id.length() < 1) {
 					throw new ManutencaoException("Não foi encontrado o veículo informado.");
 				}
-//				
-//				manutencaoSave = ItemDao.getInstance().get(Integer.parseInt(id));
-//				manutencaoSave.setDescricao(request.getParameter("descricao"));
+				
+				manutencaoSave = ManutencaoDao.getInstance().get(Integer.parseInt(id));
+				manutencaoSave.setQuilometragem(new BigDecimal(request.getParameter("quilometragem").replaceAll(",", ".")));
+				manutencaoSave.setDescricao(request.getParameter("descricao"));
+				manutencaoSave.setValor(new BigDecimal(request.getParameter("valor").replaceAll(",", ".")));
+				manutencaoSave.setVeiculo(VeiculoDao.getInstance().get(Integer.parseInt(request.getParameter("veiculo_id"))));
 			}
 			
 			ManutencaoDao.getInstance().save(manutencaoSave);

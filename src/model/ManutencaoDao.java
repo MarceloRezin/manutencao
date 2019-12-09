@@ -153,5 +153,4 @@ public final class ManutencaoDao implements Dao<Manutencao> {
         con.close();
 	}
 
-	
 }

@@ -50,6 +50,10 @@ public class Manutencao extends Model{
 	public BigDecimal getQuilometragem() {
 		return quilometragem;
 	}
+	
+	public String getQuilometragemFormatada() {
+		return quilometragem.toString().replaceAll("\\.", ",") + " km";
+	}
 
 	public void setQuilometragem(BigDecimal quilometragem) {
 		this.quilometragem = quilometragem;
@@ -65,6 +69,10 @@ public class Manutencao extends Model{
 
 	public BigDecimal getValor() {
 		return valor;
+	}
+	
+	public String getValorFormatado() {
+		return "R$ " + valor.toString().replaceAll("\\.", ",");
 	}
 
 	public void setValor(BigDecimal valor) {
