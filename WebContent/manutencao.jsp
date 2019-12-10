@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" session="true" import="model.Manutencao, model.Veiculo"%>
+    pageEncoding="UTF-8" session="true" import="model.Manutencao, model.Veiculo, model.ManutencaoItem"%>
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
@@ -10,6 +10,7 @@
 <link rel="stylesheet" href="/manutencao/styles.css">
 </head>
 <body style="text-align: center">
+	<div id="snackbar">${sessionScope.mensagem}</div>
 	<div class="topnav"> 
 		<a style="float: left; margin-right: 20px; font-weight: bold; font-size: 19px; border-right: 1px solid white">Gerenciamento de Manutenções</a>
 		<a href="/manutencao/">Home</a>
@@ -79,6 +80,54 @@
 				</c:if> 
 			</tr>
 		</table>
-	</form>	
+	</form>
+	
+	<br />
+
+		
+	<h2>Itens da Manutenção</h2>
+	
+	<a href='/manutencao/manutencao_item/novo?id=${sessionScope.manutencao.id}' class='button buttongreen'>Adicionar Itens</a>
+	
+	<c:choose>
+		<c:when test="${!empty sessionScope.manutencao.itens}">
+		 
+		<table id="listagem" align="center">
+			<tr>
+				<th>Id</th>
+				<th>Descrição</th>
+				<th>Valor</th>
+				<th></th>
+			</tr>
+			<c:forEach var="i" items="${sessionScope.manutencao.itens}">
+		   		<tr>
+					<td>${i.id}</td>
+					<td>${i.item.descricao}</td>
+					<td>${i.valorFormatado}</td>
+					<td><a href="/manutencao/manutencao_item/delete?id=${i.id}&manutencao_id=${sessionScope.manutencao.id}">Remover</a></td>
+				</tr>
+			</c:forEach>
+		</table>
+		 
+	 	</c:when>
+		 <c:otherwise>
+		   <br /><br />
+		   <h3>Sem itens lançados.</h3>
+		 </c:otherwise>
+	</c:choose>
+	
+	<script>
+		function showToast() {
+		  var x = document.getElementById("snackbar");
+		  x.className = "show";
+		  setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+		}
+	</script>
+	
+	<c:if test="${sessionScope.mensagem != null}">
+		<script>
+			showToast();
+		</script>
+	</c:if> 
 </body>
 </html>

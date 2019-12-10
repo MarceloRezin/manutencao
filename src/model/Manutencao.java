@@ -32,6 +32,12 @@ public class Manutencao extends Model{
 		this.descricao = descricao;
 		this.valor = valor;
 		this.veiculo = veiculo;
+		
+		if(itens != null) {
+			itens.forEach(i -> {
+				i.setManutencao(this);
+			});
+		}
 		this.itens = itens;
 	}
 

@@ -25,7 +25,7 @@ public final class ManutencaoItemDao implements Dao<ManutencaoItem>{
 		try {	
 			return new ManutencaoItem(
 					rs.getInt("id"),
-					ManutencaoDao.getInstance().get(rs.getInt("manutencao_id")),
+					null, //Nulo pra não virar recursivo, é setado no contrutor da manutencao
 					ItemDao.getInstance().get(rs.getInt("item_id")),
 					rs.getBigDecimal("valor"));
 		}catch(ClassNotFoundException e) {

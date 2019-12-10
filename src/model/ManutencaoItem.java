@@ -39,6 +39,10 @@ public class ManutencaoItem extends Model{
 		return valor;
 	}
 
+	public String getValorFormatado() {
+		return "R$ " + valor.toString().replaceAll("\\.", ",");
+	}
+	
 	public void setValor(BigDecimal valor) {
 		this.valor = valor;
 	}
