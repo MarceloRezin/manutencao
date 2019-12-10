@@ -55,7 +55,7 @@
 			<tr>
 				<td align="right">Veículo:</td>
 				<td align="left">
-					<select name="veiculo_id" value>
+					<select name="veiculo_id" required>
 						<c:forEach var="vei" items="${sessionScope.veiculos}">
 							<c:choose>
 						 		<c:when test="${sessionScope.manutencao.veiculo.id == vei.id}">
