@@ -152,5 +152,23 @@ public final class ManutencaoDao implements Dao<Manutencao> {
         st.close();
         con.close();
 	}
+	
+	public int count() throws SQLException, ClassNotFoundException {
+		String sql = "SELECT COUNT(*) FROM " + TABELA;
+		
+		Connection con = Banco.iniciarDb();
+		Statement st = con.createStatement();
 
+		ResultSet rs = st.executeQuery(sql);
+
+        int count = 0;
+        while (rs.next()){
+            count = rs.getInt(1);
+        }
+        
+        st.close();
+        con.close();
+        
+        return count;
+	}
 }
