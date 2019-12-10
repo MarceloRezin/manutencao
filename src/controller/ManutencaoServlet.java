@@ -58,6 +58,7 @@ public class ManutencaoServlet extends HttpServlet {
 						request.getSession().setAttribute("urlSave", "/manutencao/manutencao");
 			
 						request.getRequestDispatcher("/manutencao.jsp").forward(request, response);
+						request.getSession().setAttribute("mensagem", null);
 					}else { //LIST	
 						String query = request.getParameter("q");
 						
