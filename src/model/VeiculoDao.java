@@ -155,4 +155,27 @@ public final class VeiculoDao implements Dao<Veiculo> {
         
         return count;
 	}
+	
+	public boolean existePlaca(String placa, Integer notId) throws SQLException, ClassNotFoundException {
+		String sql = "SELECT COUNT(*) FROM " + TABELA + " WHERE placa = '" + placa + "'";
+		
+		if(notId != null) {
+			sql += " AND id != " + notId;
+		}
+		
+		Connection con = Banco.iniciarDb();
+		Statement st = con.createStatement();
+
+		ResultSet rs = st.executeQuery(sql);
+
+        int count = 0;
+        while (rs.next()){
+            count = rs.getInt(1);
+        }
+        
+        st.close();
+        con.close();
+        
+        return count > 0;
+	}
 }

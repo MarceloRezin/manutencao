@@ -51,6 +51,7 @@ public class VeiculoServlet extends HttpServlet {
 						request.getSession().setAttribute("urlSave", "/manutencao/veiculo");
 			
 						request.getRequestDispatcher("/veiculo.jsp").forward(request, response);
+						request.getSession().setAttribute("mensagem", null);
 					}else { //LIST
 						String query = request.getParameter("q");
 						
@@ -80,6 +81,11 @@ public class VeiculoServlet extends HttpServlet {
 			
 			if(request.getRequestURI().endsWith("/novo")) { //NEW
 				veiculoSave = new Veiculo(null, Integer.parseInt(request.getParameter("ano")), request.getParameter("placa"), VeiculoTipo.valueOf(request.getParameter("tipo")), request.getParameter("descricao"));
+				
+				if(VeiculoDao.getInstance().existePlaca(veiculoSave.getPlaca(), null)) {
+					request.getSession().setAttribute("mensagem", "Já existe um veículo com essa placa!");
+					response.sendRedirect("/manutencao/veiculo/novo");
+				}
 			}else {
 				String id = request.getParameter("id");
 				
@@ -93,6 +99,12 @@ public class VeiculoServlet extends HttpServlet {
 				veiculoSave.setPlaca(request.getParameter("placa"));
 				veiculoSave.setTipo(VeiculoTipo.valueOf(request.getParameter("tipo")));
 				veiculoSave.setDescricao(request.getParameter("descricao"));
+				
+				
+				if(VeiculoDao.getInstance().existePlaca(veiculoSave.getPlaca(), veiculoSave.getId())) {
+					request.getSession().setAttribute("mensagem", "Já existe um veículo com essa placa!");
+					response.sendRedirect("/manutencao/veiculo?id=" + id);
+				}
 			}
 			
 			VeiculoDao.getInstance().save(veiculoSave);
