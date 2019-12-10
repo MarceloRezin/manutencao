@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import exception.ManutencaoException;
+import model.ManutencaoDao;
 import model.Veiculo;
 import model.VeiculoDao;
 import model.VeiculoTipo;
@@ -35,9 +36,17 @@ public class VeiculoServlet extends HttpServlet {
 				
 				if(request.getRequestURI().endsWith("/delete")){
 					if(idInformado) { //DELETE
-						VeiculoDao.getInstance().delete(Integer.parseInt(id));
-						request.getSession().setAttribute("mensagem", "Excluído com sucesso!");
-						response.sendRedirect("/manutencao/veiculo");
+						
+						Integer idInt = Integer.parseInt(id);
+						
+						if(ManutencaoDao.getInstance().existeVeiculo(idInt)) {
+							request.getSession().setAttribute("mensagem", "Esse veiculo não pode ser removido pois está vinculado a uma manutenção!");
+							response.sendRedirect("/manutencao/veiculo?id=" + id);
+						}else {
+							VeiculoDao.getInstance().delete(idInt);
+							request.getSession().setAttribute("mensagem", "Excluído com sucesso!");
+							response.sendRedirect("/manutencao/veiculo");
+						}
 					}else {
 						throw new ManutencaoException("Não foi encontrado o veículo informado.");
 					}
