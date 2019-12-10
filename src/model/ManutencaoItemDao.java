@@ -5,12 +5,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
 import banco.Banco;
-import model.Item;
 
 public final class ManutencaoItemDao implements Dao<ManutencaoItem>{
 	
@@ -168,5 +166,24 @@ public final class ManutencaoItemDao implements Dao<ManutencaoItem>{
         
         st.close();
         con.close();
+	}
+	
+	public boolean isUtilizado(final int itemId) throws ClassNotFoundException, SQLException {
+		String sql = "SELECT COUNT(*) FROM " + TABELA + " WHERE item_id = " + itemId;
+		
+		Connection con = Banco.iniciarDb();
+		Statement st = con.createStatement();
+
+		ResultSet rs = st.executeQuery(sql);
+
+        int count = 0;
+        while (rs.next()){
+            count = rs.getInt(1);
+        }
+        
+        st.close();
+        con.close();
+        
+        return count > 0;
 	}
 }

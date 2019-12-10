@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import exception.ManutencaoException;
 import model.Item;
 import model.ItemDao;
+import model.ManutencaoItemDao;
 
 @WebServlet("/item/*")
 public class ItemServlet extends HttpServlet {
@@ -33,9 +34,17 @@ public class ItemServlet extends HttpServlet {
 				
 				if(request.getRequestURI().endsWith("/delete")){
 					if(idInformado) { //DELETE
-						ItemDao.getInstance().delete(Integer.parseInt(id));
-						request.getSession().setAttribute("mensagem", "Excluído com sucesso!");
-						response.sendRedirect("/manutencao/item");
+						
+						int idInt = Integer.parseInt(id);
+						
+						if(ManutencaoItemDao.getInstance().isUtilizado(idInt)) {
+							request.getSession().setAttribute("mensagem", "Esse item não pode ser removido pois está vinculado a uma manutenção!");
+							response.sendRedirect("/manutencao/item?id=" + id);
+						}else {
+							ItemDao.getInstance().delete(idInt);
+							request.getSession().setAttribute("mensagem", "Excluído com sucesso!");
+							response.sendRedirect("/manutencao/item");
+						}
 					}else {
 						throw new ManutencaoException("Não foi encontrado o veículo informado.");
 					}
@@ -48,6 +57,7 @@ public class ItemServlet extends HttpServlet {
 						request.getSession().setAttribute("urlSave", "/manutencao/item");
 			
 						request.getRequestDispatcher("/item.jsp").forward(request, response);
+						request.getSession().setAttribute("mensagem", null);
 					}else { //LIST
 						String query = request.getParameter("q");
 						
